@@ -1,0 +1,89 @@
+<html>
+  <style>
+    .container {
+      position: relative;
+    }
+
+    .container canvas {
+      position: absolute;
+    }
+
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+  <body>
+    <button class="play">PLAY</button>
+    <div class="container">
+      <canvas width="1280" height="720" class="canvas"></canvas>
+      <video width="1280" height="720" class="video" src="demo_video.mp4"></video>
+    </div>
+  </body>
+
+  <script>
+    const button = document.querySelector('.play');
+    const video = document.querySelector('.video');
+    const canvas = document.querySelector('.canvas');
+    const ctx = canvas.getContext("2d");
+    const hypotenuse = Math.sqrt(
+     Math.pow(canvas.height / 2, 2) + Math.pow(canvas.width / 2, 2),
+    ); // Pythagoras Theorem
+
+    let canvasCircleRadius = canvas.height/2;
+    let animationFrameId;
+
+    const drawCanvasImage = () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    };
+
+    const animateCanvasCircle = () => {
+      ctx.beginPath();
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(
+        canvas.width / 2,
+        canvas.height / 2,
+        canvasCircleRadius,
+        0,
+        2 * Math.PI,
+        true,
+      );
+      ctx.closePath();
+      ctx.clip();
+
+      drawCanvasImage();
+
+      ctx.beginPath();
+      ctx.arc(0, 0, canvasCircleRadius, 0, 2 * Math.PI, true);
+      ctx.clip();
+      ctx.closePath();
+      ctx.restore();
+    };
+
+    const playVideo = () => {
+      canvasCircleRadius++;
+
+      if (canvasCircleRadius <= hypotenuse) {
+        animateCanvasCircle();
+      } else {
+        drawCanvasImage();
+      }
+
+      if (!video.ended) {
+        animationFrameId = requestAnimationFrame(playVideo);
+      } else {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+
+    button.addEventListener('click', () => {
+      video.play();
+      playVideo();
+    });
+  </script>
+</html>
