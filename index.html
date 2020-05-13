@@ -9,6 +9,7 @@
       border: 1px solid black;
     }
   </style>
+
   <body>
     <button class="play">PLAY</button>
     <div class="container">
@@ -22,11 +23,11 @@
     const video = document.querySelector('.video');
     const canvas = document.querySelector('.canvas');
     const ctx = canvas.getContext("2d");
-    const hypotenuse = Math.sqrt(
+    const maxHypotenuse = Math.sqrt(
      Math.pow(canvas.height / 2, 2) + Math.pow(canvas.width / 2, 2),
     ); // Pythagoras Theorem
 
-    let canvasCircleRadius = canvas.height/2;
+    let canvasCircleRadius = 0; // Change to make starting the circle bigger or smaller
     let animationFrameId;
 
     const drawCanvasImage = () => {
@@ -34,6 +35,8 @@
     };
 
     const animateCanvasCircle = () => {
+      canvasCircleRadius++;
+
       ctx.beginPath();
       ctx.rect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#fff';
@@ -63,9 +66,7 @@
     };
 
     const animateCanvas = () => {
-      canvasCircleRadius++;
-
-      if (canvasCircleRadius <= hypotenuse) {
+      if (canvasCircleRadius <= maxHypotenuse) {
         animateCanvasCircle();
       } else {
         drawCanvasImage();
