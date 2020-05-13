@@ -37,12 +37,6 @@
     const animateCanvasCircle = () => {
       canvasCircleRadius++;
 
-      ctx.beginPath();
-      ctx.rect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.closePath();
-
       ctx.save();
       ctx.beginPath();
       ctx.arc(
@@ -76,6 +70,12 @@
     };
 
     button.addEventListener('click', () => {
+      ctx.beginPath();
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.closePath();
+
       video.play();
       animateCanvas();
     });
