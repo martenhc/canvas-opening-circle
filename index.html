@@ -6,9 +6,6 @@
 
     .container canvas {
       position: absolute;
-    }
-
-    canvas {
       border: 1px solid black;
     }
   </style>
@@ -65,7 +62,7 @@
       ctx.restore();
     };
 
-    const playVideo = () => {
+    const animateCanvas = () => {
       canvasCircleRadius++;
 
       if (canvasCircleRadius <= hypotenuse) {
@@ -75,7 +72,7 @@
       }
 
       if (!video.ended) {
-        animationFrameId = requestAnimationFrame(playVideo);
+        animationFrameId = requestAnimationFrame(animateCanvas);
       } else {
         cancelAnimationFrame(animationFrameId);
       }
@@ -83,7 +80,7 @@
 
     button.addEventListener('click', () => {
       video.play();
-      playVideo();
+      animateCanvas();
     });
   </script>
 </html>
